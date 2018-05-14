@@ -39,7 +39,8 @@ function startApp(){
             var currStock = parseInt(res[answers.product-1].stock)
             var quant = parseInt(answers.quantity)
             if(currStock < quant){
-                console.log("No!");
+                console.log("I'm sorry, we currently do not have the inventory to support this request.");
+                continueOn()
             }
             else{
                 makePurchase(answers.product,(currStock-quant))
@@ -64,22 +65,26 @@ function makePurchase(id,newStock){
         function(err){
             if(err) throw err;
             console.log("Thank you for your business!");
-            inquirer.prompt([
-                {
-                    name: "continue",
-                    type: "confirm",
-                    message: "Would you like to make another purchase?"
-                }
-            ])
-            .then(function(answer){
-                if(answer.continue === true){
-                    startApp()
-                }
-                else{
-                    conn.end();
-                    process.exit();
-                }
-            });
+            continueOn()
         }
     );
+}
+
+function continueOn(){
+    inquirer.prompt([
+        {
+            name: "continue",
+            type: "confirm",
+            message: "Would you like to make another purchase?"
+        }
+    ])
+    .then(function(answer){
+        if(answer.continue === true){
+            startApp()
+        }
+        else{
+            conn.end();
+            process.exit();
+        }
+    });
 }

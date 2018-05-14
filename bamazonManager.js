@@ -105,11 +105,11 @@ function addProduct(){
     ]).then(function(answer){
         var query = "insert into products (product,department,price,stock) values ('"+answer.product+"','"+answer.department+"','"+answer.price+"','"+answer.stock+"')"
         conn.query(query,function(err,res){
-            console.log("You have expanded your product inventory!")
+            console.log("You have expanded your product inventory!");
+            continueOn();
         });
     });
 }
-
 function continueOn(){
     inquirer.prompt([
         {
@@ -128,4 +128,3 @@ function continueOn(){
         }
     });
 }
-
